@@ -1,0 +1,1 @@
+web: gunicorn --pythonpath unsw_catalog unsw_catalog.wsgi --log-file -
