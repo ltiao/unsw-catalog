@@ -23,3 +23,7 @@ NEWSPIDER_MODULE = 'unsw_catalog_bot.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'unsw_catalog_bot (+http://www.yourdomain.com)'
+
+ITEM_PIPELINES = {
+    'unsw_catalog_bot.pipelines.BotPipeline': 1,
+}
