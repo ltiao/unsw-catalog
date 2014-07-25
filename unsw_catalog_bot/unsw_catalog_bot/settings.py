@@ -27,3 +27,9 @@ NEWSPIDER_MODULE = 'unsw_catalog_bot.spiders'
 ITEM_PIPELINES = {
     'unsw_catalog_bot.pipelines.BotPipeline': 1,
 }
+
+HTTPCACHE_ENABLED = True
+ 
+# DOWNLOADER_MIDDLEWARES = {
+#     'scrapy.contrib.downloadermiddleware.httpcache.HttpCacheMiddleware': 300,
+# }
