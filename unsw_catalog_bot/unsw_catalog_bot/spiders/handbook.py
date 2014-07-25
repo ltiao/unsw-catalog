@@ -27,17 +27,9 @@ class AwesomeHandbookSpider(CrawlSpider):
             self.year = year  
         else:
             self.year = 'current'
-        
-        base_url = 'http://www.handbook.unsw.edu.au/vbook{year}/brCoursesByAtoZ.jsp'
 
-        self.start_urls = ['?'.join(
-                                (
-                                    base_url.format(year=self.year), 
-                                    urlencode(
-                                        dict(StudyLevel=career, descr='All')
-                                    )
-                                )
-                            ) for career in self.careers]
+        self.start_urls = ['http://www.handbook.unsw.edu.au/vbook{year}/brCoursesByAtoZ.jsp?StudyLevel={level}&descr=All' \
+            .format(year=self.year, level=career) for career in self.careers]
         print self.start_urls
 
 class NewHandbookSpider(CrawlSpider):
