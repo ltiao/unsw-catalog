@@ -2,8 +2,43 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors import LinkExtractor
 from scrapy import log
+from urllib import urlencode
+from urlparse import urlsplit, urlunsplit
 import json
 import re
+
+class AwesomeHandbookSpider(CrawlSpider):
+    name = 'awesome-handbook'
+    allowed_domains = ['unsw.edu.au']
+    
+    base_url = 'http://www.handbook.unsw.edu.au/'
+    
+    def __init__(self, year=None, careers=None, *args, **kwargs):
+        super(AwesomeHandbookSpider, self).__init__(*args, **kwargs)
+        
+        if careers is not None:
+            # TODO: Further format checking
+            self.careers = json.loads(careers) # careers.split(',')
+        else:
+            self.careers = 'undergraduate|postgraduate|research|nonaward'.split('|')
+        
+        if year is not None:
+            # TODO: Further format checking
+            self.year = year  
+        else:
+            self.year = 'current'
+        
+        base_url = 'http://www.handbook.unsw.edu.au/vbook{year}/brCoursesByAtoZ.jsp'
+
+        self.start_urls = ['?'.join(
+                                (
+                                    base_url.format(year=self.year), 
+                                    urlencode(
+                                        dict(StudyLevel=career, descr='All')
+                                    )
+                                )
+                            ) for career in self.careers]
+        print self.start_urls
 
 class NewHandbookSpider(CrawlSpider):
     name = 'new-handbook'
