@@ -2,6 +2,7 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors import LinkExtractor
 from scrapy import Spider, Request
+from unsw_catalog_bot.items import CourseItem 
 from urllib import urlencode
 from urlparse import urlsplit, urlunsplit
 import json
@@ -39,21 +40,23 @@ class AwesomeHandbookSpider(CrawlSpider):
             self.year = 'current'
 
         self.start_urls = ['http://www.handbook.unsw.edu.au/vbook{year}/brCoursesByAtoZ.jsp?StudyLevel={level}&descr={descr}' \
-            .format(year=self.year, level=career, descr='V') for career in self.careers]
+            .format(year=self.year, level=career, descr='All') for career in self.careers]
     
     def parse_item(self, response):
         content = response.xpath("//div[@class='column content-col']/div[@class='internalContentWrapper']")
         summary = content.xpath("div[@class='summary']")
-        item = dict(
-            faculty = summary.xpath("p[strong[text()[contains(.,'Faculty')]]]/a/text()").extract(),
-            school = summary.xpath("p[strong[text()[contains(.,'School')]]]/a/text()").extract(),
-            campus = summary.xpath("p[strong[text()[contains(.,'Campus')]]]/text()").re(ur'\xa0([\w\s]+)'),
-            career = summary.xpath("p[strong[text()[contains(.,'Career')]]]/text()").re(ur'\xa0([\w\s]+)'),
-            uoc = summary.xpath("p[strong[text()[contains(.,'Units of Credit')]]]/text()").re(ur'\xa0(\d+)'),
-            eftsl = summary.xpath("p[strong[text()[contains(.,'EFTSL')]]]/text()").re(ur'\xa0(\d+\.\d+)\xa0'),
-            gened = summary.xpath("/html/head/meta[@name='DC.Subject.GenED']/@content").extract(),
+        yield CourseItem(
+            code = response.xpath("/html/head/meta[@name='DC.Subject.ProgramCode']/@content").extract()[0],
+            name = response.xpath("/html/head/meta[@name='DC.Subject.Description.Short']/@content").extract()[0],
+            career = response.xpath("/html/head/meta[@name='DC.Subject.Level']/@content").extract()[0],
+            uoc = response.xpath("/html/head/meta[@name='DC.Subject.UOC']/@content").extract()[0],
+            gened = response.xpath("/html/head/meta[@name='DC.Subject.GenED']/@content").extract()[0] == 'Y',
+            faculty = response.xpath("/html/head/meta[@name='DC.Subject.Faculty']/@content").extract()[0],
+            school = summary.xpath("p[strong[text()[contains(.,'School')]]]/a/text()").extract()[0],
+            campus = summary.xpath("p[strong[text()[contains(.,'Campus')]]]/text()").re(ur'\xa0([\w\s]+)')[0],
+            eftsl = summary.xpath("p[strong[text()[contains(.,'EFTSL')]]]/text()").re(ur'\xa0(\d+\.\d+)\xa0')[0],
+            description_markup = content.xpath("h2[text()='Description']/following-sibling::div").extract()[0],
         )
-        self.log('ITEM %s' % item)
         yield Request(url=summary.xpath(".//a[text()[contains(.,'Timetable')]]/@href")[0].extract())
 
 class NewHandbookSpider(CrawlSpider):
