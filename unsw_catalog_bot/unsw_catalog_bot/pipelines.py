@@ -8,6 +8,6 @@
 
 class BotPipeline(object):
     def process_item(self, item, spider):
-        item.save()
+        item.save(commit=False)
         # print item
         return item

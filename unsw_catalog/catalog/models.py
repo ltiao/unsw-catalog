@@ -11,3 +11,8 @@ class Course(models.Model):
     school = models.CharField(max_length=60)
     campus = models.CharField(max_length=25)
     eftsl = models.DecimalField(max_digits=6, decimal_places=5)
+
+class Class(models.Model):
+    course = models.ForeignKey(Course)
+    class_nbr = models.PositiveIntegerField()
+    activity = models.CharField(max_length=25)
