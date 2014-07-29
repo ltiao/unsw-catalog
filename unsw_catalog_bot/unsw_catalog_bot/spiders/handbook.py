@@ -4,9 +4,9 @@ from scrapy.contrib.linkextractors import LinkExtractor
 from scrapy.contrib.loader import ItemLoader
 from scrapy.contrib.loader.processor import Identity, TakeFirst, MapCompose
 from scrapy import Spider, Request
-from unsw_catalog_bot.items import CourseItem 
-from urllib import urlencode
-from urlparse import urlsplit, urlunsplit
+from unsw_catalog_bot.items import CourseItem
+from urlparse import urlparse
+import posixpath as ppath
 import json
 import re
 
@@ -32,7 +32,7 @@ class HandbookSpider(CrawlSpider):
             # TODO: Further format checking
             self.careers = json.loads(careers) # careers.split(',')
         else:
-            self.careers = 'undergraduate|postgraduate|research'.split('|')
+            self.careers = 'undergraduate postgraduate research'.split()
         
         if year is not None:
             # TODO: Further format checking
@@ -45,12 +45,15 @@ class HandbookSpider(CrawlSpider):
             .format(year=self.year, level=career, descr='All') for career in self.careers]
     
     def parse_course_item(self, response):
+        url_obj = urlparse(response.url)
         l = ItemLoader(item=CourseItem(), response=response)
         l.default_input_processor = MapCompose(unicode.strip)
         l.default_output_processor = TakeFirst()
         l.add_xpath('code', "/html/head/meta[@name='DC.Subject.ProgramCode']/@content")
         l.add_xpath('name', "/html/head/meta[@name='DC.Subject.Description.Short']/@content")
         l.add_xpath('career', "/html/head/meta[@name='DC.Subject.Level']/@content")
+        l.year_in = Identity()
+        l.add_value('year', ppath.basename(ppath.dirname(url_obj.path)))
         l.add_xpath('uoc', "/html/head/meta[@name='DC.Subject.UOC']/@content")
         l.gened_in = MapCompose(unicode.strip, lambda s: s == 'Y')
         l.add_xpath('gened', "/html/head/meta[@name='DC.Subject.GenED']/@content")

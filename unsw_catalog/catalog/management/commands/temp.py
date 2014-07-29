@@ -17,10 +17,11 @@ class Command(BaseCommand):
                 'gened': u'N',
                 'name': u'Medical Imaging',
                 'school': u'Graduate School of Biomedical Engineering',
-                'uoc': u'6'
+                'uoc': u'6',
             }
         )
-        self.stdout.write(course.id)
-        klass = Class(class_nbr=12123, activity='Lecture', course=course)
-        klass.save()
-        self.stdout.write('Course has id: %d' % course.id)
+        course.save()
+
+        # klass = Class(class_nbr=12123, activity='Lecture', course=course)
+        # klass.save()
+        # self.stdout.write('Course has id: %d' % course.id)
