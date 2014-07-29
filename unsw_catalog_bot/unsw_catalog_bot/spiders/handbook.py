@@ -42,7 +42,7 @@ class HandbookSpider(CrawlSpider):
             self.year = 'current'
 
         self.start_urls = ['http://www.handbook.unsw.edu.au/vbook{year}/brCoursesByAtoZ.jsp?StudyLevel={level}&descr={descr}' \
-            .format(year=self.year, level=career, descr='V') for career in self.careers]
+            .format(year=self.year, level=career, descr='All') for career in self.careers]
     
     def parse_course_item(self, response):
         l = ItemLoader(item=CourseItem(), response=response)
@@ -52,6 +52,7 @@ class HandbookSpider(CrawlSpider):
         l.add_xpath('name', "/html/head/meta[@name='DC.Subject.Description.Short']/@content")
         l.add_xpath('career', "/html/head/meta[@name='DC.Subject.Level']/@content")
         l.add_xpath('uoc', "/html/head/meta[@name='DC.Subject.UOC']/@content")
+        l.gened_in = MapCompose(unicode.strip, lambda s: s == 'Y')
         l.add_xpath('gened', "/html/head/meta[@name='DC.Subject.GenED']/@content")
         l.add_xpath('faculty', "/html/head/meta[@name='DC.Subject.Faculty']/@content")
         l.add_xpath('school', ( "//div[@class='column content-col']/div[@class='internalContentWrapper']"
