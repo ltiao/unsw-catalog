@@ -43,7 +43,7 @@ class HandbookSpider(CrawlSpider):
             self.year = 'current'
 
         self.start_urls = ['http://www.handbook.unsw.edu.au/vbook{year}/brCoursesByAtoZ.jsp?StudyLevel={level}&descr={descr}' \
-            .format(year=self.year, level=career, descr='All') for career in self.careers]
+            .format(year=self.year, level=career, descr='V') for career in self.careers]
     
     def parse_course_item(self, response):
         url_obj = urlparse(response.url)

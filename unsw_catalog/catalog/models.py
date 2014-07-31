@@ -33,7 +33,7 @@ class Course(models.Model):
         max_digits = 6,
         decimal_places = 5
     )
-    prereqs = models.ManyToManyField('self', symmetrical=False)
+    prereqs = models.ManyToManyField('self', verbose_name='Prerequisites', symmetrical=False)
     exclusions = models.ManyToManyField('self', symmetrical=True)
     accessed = models.DateTimeField(
         verbose_name = 'Last Accessed',
@@ -44,6 +44,9 @@ class Course(models.Model):
     
     class Meta:
         unique_together = ('code', 'career', 'year')
+
+    def __unicode__(self):
+        return u'{code} - {name}'.format(code=self.code, name=self.name)
 
     #TODO: normalize description
 
@@ -71,6 +74,13 @@ class Class(models.Model):
         help_text = 'Last time source itself was updated',
     )
     url = models.URLField(max_length=80)
+
+    class Meta:
+        verbose_name_plural = 'classes'
+
+    def __unicode__(self):
+        return u'{course_name} - {activity} ({class_nbr})'.format(course_name=self.course.name, 
+            activity=self.activity, class_nbr=self.class_nbr)
 
 class Meeting(models.Model):
     # need to add a French twist to the field name
