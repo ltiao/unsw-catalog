@@ -20,7 +20,7 @@ class Command(BaseCommand):
                 'uoc': u'6',
             }
         )
-        course.save()
+        course.save(update_fields=['accessed'])
 
         # klass = Class(class_nbr=12123, activity='Lecture', course=course)
         # klass.save()

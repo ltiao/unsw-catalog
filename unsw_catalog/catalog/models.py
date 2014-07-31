@@ -32,6 +32,13 @@ class Course(models.Model):
         max_digits = 6,
         decimal_places = 5
     )
+    prereqs = models.ManyToManyField('self', symmetrical=False)
+    exclusions = models.ManyToManyField('self', symmetrical=True)
+    accessed = models.DateTimeField(
+        verbose_name = 'Last Accessed',
+        help_text = 'Last time the source was accessed by crawler', 
+        auto_now = True
+    )
     url = models.URLField(max_length=80)
     
     class Meta:
@@ -44,3 +51,14 @@ class Class(models.Model):
     course = models.ForeignKey(Course)
     class_nbr = models.PositiveIntegerField()
     activity = models.CharField(max_length=25)
+    section = models.CharField(max_length=5)
+    accessed = models.DateTimeField(
+        verbose_name = 'Last Accessed',
+        help_text = 'Last time the source was accessed by crawler', 
+        auto_now = True
+    )
+    updated = models.DateTimeField(
+        verbose_name = 'Updated',
+        help_text = 'Last time source itself was updated',
+    )
+    url = models.URLField(max_length=80)
