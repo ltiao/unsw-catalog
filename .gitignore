@@ -43,6 +43,7 @@ coverage.xml
 .pydevproject
 .DS_Store
 *.sqlite3
+*.sublime-workspace
 
 # Rope
 .ropeproject
