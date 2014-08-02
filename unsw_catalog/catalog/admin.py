@@ -8,7 +8,9 @@ class ClassInline(admin.TabularInline):
 class CourseAdmin(admin.ModelAdmin):
 	inlines = [ClassInline]
 	list_display = ('code', 'name', 'career', 'year')
-	search_fields = ['code', 'name', 'description_markup']
+	list_filter = ('career', 'faculty', 'school', 'campus', )
+	search_fields = ['name', 'description_markup']
+	ordering = ('code',)
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Class)

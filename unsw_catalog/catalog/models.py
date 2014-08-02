@@ -40,7 +40,7 @@ class Course(models.Model):
         help_text = 'Last time the source was accessed by crawler', 
         auto_now = True
     )
-    src_url = models.URLField(max_length=80)
+    src_url = models.URLField(verbose_name='Source URL', max_length=80)
     
     class Meta:
         unique_together = ('code', 'career', 'year')
@@ -73,13 +73,13 @@ class Class(models.Model):
         verbose_name = 'Last Updated',
         help_text = 'Last time source itself was updated',
     )
-    src_url = models.URLField(max_length=80)
+    src_url = models.URLField(verbose_name='Source URL', max_length=80)
 
     class Meta:
         verbose_name_plural = 'classes'
 
     def __unicode__(self):
-        return u'{course_name} - {activity} ({class_nbr})'.format(course_name=self.course.name, 
+        return u'{course_code} - {activity} ({class_nbr})'.format(course_code=self.course.code, 
             activity=self.activity, class_nbr=self.class_nbr)
 
 class Meeting(models.Model):

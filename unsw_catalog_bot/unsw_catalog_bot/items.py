@@ -8,7 +8,7 @@
 from scrapy.contrib.djangoitem import DjangoItem
 from scrapy.item import Field
 
-from catalog.models import Course, Class
+from catalog.models import Course, Class, Meeting
 
 class CourseItem(DjangoItem):
     django_model = Course
@@ -16,3 +16,8 @@ class CourseItem(DjangoItem):
 class ClassItem(DjangoItem):
     django_model = Class
     course_identifier = Field()
+
+class MeetingItem(DjangoItem):
+    django_model = Meeting
+    class_identifier = Field()
+

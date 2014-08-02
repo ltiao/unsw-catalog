@@ -5,7 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-from catalog.models import Course, Class
+from catalog.models import Course, Class, Meeting
 
 class BotPipeline(object):
 
