@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 from unipath import Path
 
-PROJECT_DIR = Path(__file__).ancestor(3)
-BASE_DIR = Path(__file__).ancestor(2)
+PROJECT_DIR = Path(__file__).ancestor(4)
+BASE_DIR = Path(__file__).ancestor(3)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -38,8 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'south',
     'rest_framework',
+    'south',
     'catalog',
 )
 
@@ -85,3 +85,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+TEMPLATE_DIRS = [
+    BASE_DIR.child('templates'),
+]
