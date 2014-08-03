@@ -14,6 +14,8 @@ class BotPipeline(object):
             item = self.process_course(item, spider)
         elif isinstance(item.instance, Class):
             item = self.process_class(item, spider)
+        elif isinstance(item.instance, Meeting):
+            item = self.process_meeting(item, spider)
         else:
             pass    
         return item
@@ -42,6 +44,22 @@ class BotPipeline(object):
                 obj.save()
         except Class.DoesNotExist:
             obj = Class(**item_dict)
+            obj.save()
+
+        return item
+
+    def process_meeting(self, item, spider):
+        item_dict = dict(item) # convert to dict first so we can assign arbitrary fields
+        class_identifier = item_dict.pop('class_identifier')
+        classe = Class.objects.get(**class_identifier)
+        item_dict['classe_id'] = classe.id
+        try:
+            obj = Meeting.objects.get(**{k: item_dict.get(k, None) for k in ('day', 'time_start', 'location', 'weeks')})
+            for key, value in item_dict.iteritems():
+                setattr(obj, key, value)
+                obj.save()
+        except Meeting.DoesNotExist:
+            obj = Meeting(**item_dict)
             obj.save()
 
         return item

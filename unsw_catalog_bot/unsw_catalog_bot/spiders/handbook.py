@@ -44,7 +44,7 @@ class HandbookSpider(CrawlSpider):
             self.year = 'current'
 
         self.start_urls = ['http://www.handbook.unsw.edu.au/vbook{year}/brCoursesByAtoZ.jsp?StudyLevel={level}&descr={descr}' \
-            .format(year=self.year, level=career, descr='All') for career in self.careers]
+            .format(year=self.year, level=career, descr='V') for career in self.careers]
     
     def parse_course_item(self, response):
         url_obj = urlparse(response.url)
@@ -102,4 +102,22 @@ class HandbookSpider(CrawlSpider):
                     re=r'Data is correct as at ([\w\s\-:,]*)')
                 l.course_identifier_in = Identity()
                 l.add_value('course_identifier', course_identifier)
-                yield l.load_item()
+                class_item = l.load_item()
+                yield class_item
+                for meeting in class_detail.xpath("tr/td[@class='formBody']/table/tr[@class='rowHighlight' or @class='rowLowlight']"):
+                    m = MeetingItem()
+                    m['class_identifier'] = {k: class_item.get(k, None) for k in ('class_nbr', )}
+                    
+                    d = dict(
+                        zip(
+                            ('day', 'time', 'location', 'weeks', 'instructor'), 
+                            meeting.xpath("td[@class='data']/text()").extract()
+                        )
+                    )
+
+                    time = d.pop('time')
+                    d['time_start'], d['time_end'] = time.split(' - ')
+
+                    m.update(d)
+
+                    yield m
