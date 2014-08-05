@@ -1,6 +1,6 @@
 from django.conf.urls import url
-# from catalog.views import HomeView
+from catalog.views import CourseList
 
-# urlpatterns = [
-# 	url(r'^$', HomeView.as_view(), name='home'),
-# ]
+urlpatterns = [
+	url(r'^$', CourseList.as_view(), name='course-index'),
+]

@@ -1,0 +1,30 @@
+{% extends "catalog/base.html" %}
+
+{% block body %}
+
+	<div class="container">
+		<h1>Whats up</h1>
+
+		<table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Level</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for course in course_list %}
+        <tr>
+          <td>{{ course.code }}</td>
+          <td>{{ course.name }}</td>
+          <td>{{ course.career }}</td>
+          <td>{{ course.description_markup | truncatewords_html:10 | safe }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+	<div>
+
+{% endblock %}
