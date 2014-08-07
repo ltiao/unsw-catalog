@@ -3,7 +3,7 @@ UNSW Catalog
 
 The official, open-source, unofficial UNSW Handbook designed by students, for students.
 
-Currently proof-of-concept.
+Currently a proof-of-concept.
 
 ## Installation ##
 
@@ -16,6 +16,16 @@ We highly recommend you use the very popular `virtualenvwrapper` to manage you `
 3. We use `dj_database_url` for database settings. This means that you must specify the `DATABASE_URL` environment variable. See https://crate.io/packages/dj-database-url/ for how to set database url's for different database types. `dj_database_url` is great because while you definitely want to version control your settings files, you do not want to save your plaintext password in there as well.
 
 You should set the environment variables in the `postactivate` bash script for your virtual environment. If you are new to Django, you might not understand or appreciate why this has been done. If this is the case and you want to take your Django-fu to the next level, we highly recommend that you check out [Two Scoops of Django: Best Practices for Django 1.5](http://twoscoopspress.org/products/two-scoops-of-django-1-5).
+
+## About ##
+
+This project was inspired by a number of things, but probably boredom more than anything else.
+
+## Disclaimer ##
+
+This project is under the MIT license. 
+
+**tl;dr** - though it is a priority of this project that all data provided is up-to-date and accurate, we cannot be held liable for any claim arising from, out of, or in connection with the software and its use, yada, yada, yada.
 
 ## TODO ##
 
