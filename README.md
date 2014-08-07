@@ -19,7 +19,7 @@ You should set the environment variables in the `postactivate` bash script for y
 
 ## About ##
 
-This project was inspired by a number of things, but probably boredom more than anything else.
+This project was inspired by a number of things, but was probably borne out of boredom more than anything else.
 
 ## Disclaimer ##
 
@@ -35,11 +35,16 @@ This project is under the MIT license.
     + [ ] Write a CharField for the exlusions and prerequisites and override the `save` method to parse these into `Course`s and save to the respective set
 - [x] Test `Meeting` parsing
 - [ ] Additional information is available in the semester summary. Decide what to do with it, i.e. where to store it
+    + [ ] Add `Semester` model  
 - [ ] Filter by course code prefix
 - [ ] Customize default Django admin functionality 
 - [ ] Customize RESTful API functionality
-- [ ] Migrate to Amazon RDS from Heroku Postgres
+- [x] Migrate to Amazon RDS from Heroku Postgres
     + [ ] Test spider from heroku
+    + [ ] Scrape data to DB
 - [ ] Set up static files and templates and begin working on views
     + [x] templates
     + [ ] static files
+- [ ] Amazon affiliate program
+    + [ ] Add `Book` Model
+    + [ ] Scrape data    
