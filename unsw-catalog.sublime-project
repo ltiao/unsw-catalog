@@ -3,6 +3,11 @@
 	[
 		{
 			"path": "/Users/tiao/Dropbox/Projects/unsw-catalog"
+		},
+		{
+			"path": "/Users/tiao/.virtualenvs/unsw/bin",
+			"file_include_patterns": ["*activate"],
+			"file_exclude_patterns": ["*.*"]
 		}
 	]
 }

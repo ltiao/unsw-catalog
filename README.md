@@ -5,23 +5,6 @@ The official, open-source, unofficial UNSW Handbook designed by students, for st
 
 Currently proof-of-concept.
 
-TODO:
-
-- School is not parsed for some courses
-- Faculty format given by the XML in `head` is slightly funky (no space separation). Use the summary field instead.
-- `ManyToManyFields` for exclusions and prerequisites of courses
-    + Write a CharField for the exlusions and prerequisites and override the `save` method to parse these into `Course`s and save to the respective set
-- [x] Test `Meeting` parsing
-- Additional information is available in the semester summary. Decide what to do with it, i.e. where to store it
-- Filter by course code prefix
-- Customize default Django admin functionality 
-- Customize RESTful API functionality
-- Migrate to Amazon RDS from Heroku Postgres
-    + Test spider from heroku
-- Set up static files and templates and begin working on views
-    + [x] templates
-    + [ ] static files
-
 ## Installation ##
 
 This project, being entirely implemented in Python, is incredibly easy to install/deploy/migrate to other environements.
@@ -33,3 +16,20 @@ We highly recommend you use the very popular `virtualenvwrapper` to manage you `
 3. We use `dj_database_url` for database settings. This means that you must specify the `DATABASE_URL` environment variable. See https://crate.io/packages/dj-database-url/ for how to set database url's for different database types. `dj_database_url` is great because while you definitely want to version control your settings files, you do not want to save your plaintext password in there as well.
 
 You should set the environment variables in the `postactivate` bash script for your virtual environment. If you are new to Django, you might not understand or appreciate why this has been done. If this is the case and you want to take your Django-fu to the next level, we highly recommend that you check out [Two Scoops of Django: Best Practices for Django 1.5](http://twoscoopspress.org/products/two-scoops-of-django-1-5).
+
+## TODO ##
+
+- [ ] School is not parsed for some courses
+- [ ] Faculty format given by the XML in `head` is slightly funky (no space separation). Use the summary field instead.
+- [ ] `ManyToManyFields` for exclusions and prerequisites of courses
+    + [ ] Write a CharField for the exlusions and prerequisites and override the `save` method to parse these into `Course`s and save to the respective set
+- [x] Test `Meeting` parsing
+- [ ] Additional information is available in the semester summary. Decide what to do with it, i.e. where to store it
+- [ ] Filter by course code prefix
+- [ ] Customize default Django admin functionality 
+- [ ] Customize RESTful API functionality
+- [ ] Migrate to Amazon RDS from Heroku Postgres
+    + [ ] Test spider from heroku
+- [ ] Set up static files and templates and begin working on views
+    + [x] templates
+    + [ ] static files

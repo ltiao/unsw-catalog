@@ -23,7 +23,7 @@ class Migration(SchemaMigration):
             ('uoc', self.gf('django.db.models.fields.PositiveSmallIntegerField')(default=0)),
             ('eftsl', self.gf('django.db.models.fields.DecimalField')(max_digits=6, decimal_places=5)),
             ('accessed', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('url', self.gf('django.db.models.fields.URLField')(max_length=80)),
+            ('src_url', self.gf('django.db.models.fields.URLField')(max_length=80)),
         ))
         db.send_create_signal(u'catalog', ['Course'])
 
@@ -51,15 +51,37 @@ class Migration(SchemaMigration):
         # Adding model 'Class'
         db.create_table(u'catalog_class', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('course', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['catalog.Course'])),
-            ('class_nbr', self.gf('django.db.models.fields.PositiveIntegerField')()),
+            ('course', self.gf('django.db.models.fields.related.ForeignKey')(related_name='classes', to=orm['catalog.Course'])),
+            ('class_nbr', self.gf('django.db.models.fields.PositiveIntegerField')(unique=True)),
             ('activity', self.gf('django.db.models.fields.CharField')(max_length=25)),
             ('section', self.gf('django.db.models.fields.CharField')(max_length=5)),
+            ('teaching', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('status', self.gf('django.db.models.fields.CharField')(max_length=10)),
+            ('enrolments', self.gf('django.db.models.fields.PositiveIntegerField')()),
+            ('capacity', self.gf('django.db.models.fields.PositiveIntegerField')()),
+            ('offering_start', self.gf('django.db.models.fields.DateField')()),
+            ('offering_end', self.gf('django.db.models.fields.DateField')()),
+            ('census_date', self.gf('django.db.models.fields.DateField')()),
+            ('mode', self.gf('django.db.models.fields.CharField')(max_length=30)),
+            ('consent', self.gf('django.db.models.fields.CharField')(max_length=30)),
             ('accessed', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('updated', self.gf('django.db.models.fields.DateTimeField')()),
-            ('url', self.gf('django.db.models.fields.URLField')(max_length=80)),
+            ('src_url', self.gf('django.db.models.fields.URLField')(max_length=80)),
         ))
         db.send_create_signal(u'catalog', ['Class'])
+
+        # Adding model 'Meeting'
+        db.create_table(u'catalog_meeting', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('classe', self.gf('django.db.models.fields.related.ForeignKey')(related_name='meetings', to=orm['catalog.Class'])),
+            ('day', self.gf('django.db.models.fields.CharField')(max_length=5)),
+            ('time_start', self.gf('django.db.models.fields.CharField')(max_length=5)),
+            ('time_end', self.gf('django.db.models.fields.CharField')(max_length=5)),
+            ('location', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('weeks', self.gf('django.db.models.fields.CharField')(max_length=20)),
+            ('instructor', self.gf('django.db.models.fields.CharField')(max_length=50)),
+        ))
+        db.send_create_signal(u'catalog', ['Meeting'])
 
 
     def backwards(self, orm):
@@ -78,18 +100,30 @@ class Migration(SchemaMigration):
         # Deleting model 'Class'
         db.delete_table(u'catalog_class')
 
+        # Deleting model 'Meeting'
+        db.delete_table(u'catalog_meeting')
+
 
     models = {
         u'catalog.class': {
             'Meta': {'object_name': 'Class'},
             'accessed': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'activity': ('django.db.models.fields.CharField', [], {'max_length': '25'}),
-            'class_nbr': ('django.db.models.fields.PositiveIntegerField', [], {}),
-            'course': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['catalog.Course']"}),
+            'capacity': ('django.db.models.fields.PositiveIntegerField', [], {}),
+            'census_date': ('django.db.models.fields.DateField', [], {}),
+            'class_nbr': ('django.db.models.fields.PositiveIntegerField', [], {'unique': 'True'}),
+            'consent': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'course': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'classes'", 'to': u"orm['catalog.Course']"}),
+            'enrolments': ('django.db.models.fields.PositiveIntegerField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'mode': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'offering_end': ('django.db.models.fields.DateField', [], {}),
+            'offering_start': ('django.db.models.fields.DateField', [], {}),
             'section': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
-            'updated': ('django.db.models.fields.DateTimeField', [], {}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '80'})
+            'src_url': ('django.db.models.fields.URLField', [], {'max_length': '80'}),
+            'status': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'teaching': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'updated': ('django.db.models.fields.DateTimeField', [], {})
         },
         u'catalog.course': {
             'Meta': {'unique_together': "(('code', 'career', 'year'),)", 'object_name': 'Course'},
@@ -106,9 +140,20 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '60'}),
             'prereqs': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['catalog.Course']", 'symmetrical': 'False'}),
             'school': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'src_url': ('django.db.models.fields.URLField', [], {'max_length': '80'}),
             'uoc': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '0'}),
-            'url': ('django.db.models.fields.URLField', [], {'max_length': '80'}),
             'year': ('django.db.models.fields.PositiveSmallIntegerField', [], {})
+        },
+        u'catalog.meeting': {
+            'Meta': {'object_name': 'Meeting'},
+            'classe': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'meetings'", 'to': u"orm['catalog.Class']"}),
+            'day': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'instructor': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'location': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'time_end': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
+            'time_start': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
+            'weeks': ('django.db.models.fields.CharField', [], {'max_length': '20'})
         }
     }
 
