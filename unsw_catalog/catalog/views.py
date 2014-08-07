@@ -6,7 +6,7 @@ from catalog.serializers import CourseSerializer
 
 class CourseList(ListView):
     model = Course
-    queryset = Course.objects.filter(code__startswith='COMP')
+    queryset = Course.objects.all()
     context_object_name = 'course_list'
 
 class CourseViewSet(ModelViewSet):
