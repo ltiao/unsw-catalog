@@ -21,3 +21,15 @@ TODO:
 - Set up static files and templates and begin working on views
     + [x] templates
     + [ ] static files
+
+## Installation ##
+
+This project, being entirely implemented in Python, is incredibly easy to install/deploy/migrate to other environements.
+
+We highly recommend you use the very popular `virtualenvwrapper` to manage you `virtualenv`s. It goes without saying that we highly recommend that you use a `virtualenv`. The reasons for these will become apparent very shortly.
+
+1. `pip install -r requirements.txt`
+2. We recommend that you specify the `DJANGO_SETTINGS_MODULE` environment variable (e.g. `export DJANGO_SETTINGS_MODULE=unsw_catalog.settings.local`) to allow version control and switching between different settings for different environments. By default, the settings module `unsw_catalog.settings.base` will be used.
+3. We use `dj_database_url` for database settings. This means that you must specify the `DATABASE_URL` environment variable. See https://crate.io/packages/dj-database-url/ for how to set database url's for different database types. `dj_database_url` is great because while you definitely want to version control your settings files, you do not want to save your plaintext password in there as well.
+
+You should set the environment variables in the `postactivate` bash script for your virtual environment. If you are new to Django, you might not understand or appreciate why this has been done. If this is the case and you want to take your Django-fu to the next level, we highly recommend that you check out [Two Scoops of Django: Best Practices for Django 1.5](http://twoscoopspress.org/products/two-scoops-of-django-1-5).
