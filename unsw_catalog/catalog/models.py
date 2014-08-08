@@ -7,7 +7,7 @@ class Course(models.Model):
     )
     name = models.CharField(
         verbose_name = 'Course Name', 
-        max_length = 60
+        max_length = 120
     )
     career = models.CharField(
         verbose_name = 'Study Level/Career', 
@@ -35,6 +35,8 @@ class Course(models.Model):
     )
     prereqs = models.ManyToManyField('self', verbose_name='Prerequisites', symmetrical=False)
     exclusions = models.ManyToManyField('self', symmetrical=True)
+    prereqs_str = models.TextField(null=True)
+    exclusions_str = models.TextField(null=True)
     accessed = models.DateTimeField(
         verbose_name = 'Last Accessed',
         help_text = 'Last time the source was accessed by crawler', 
@@ -85,9 +87,9 @@ class Class(models.Model):
 class Meeting(models.Model):
     # need to add a French twist to the field name
     classe = models.ForeignKey(Class, verbose_name='Class', related_name='meetings')
-    day = models.CharField(max_length=5)
+    day = models.CharField(max_length=25)
     time_start = models.CharField(max_length=5)
     time_end = models.CharField(max_length=5)
     location = models.CharField(max_length=100)
     weeks = models.CharField(max_length=20)
-    instructor = models.CharField(max_length=50)
+    instructor = models.CharField(max_length=150)

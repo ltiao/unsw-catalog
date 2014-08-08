@@ -44,7 +44,7 @@ class HandbookSpider(CrawlSpider):
             self.year = 'current'
 
         self.start_urls = ['http://www.handbook.unsw.edu.au/vbook{year}/brCoursesByAtoZ.jsp?StudyLevel={level}&descr={descr}' \
-            .format(year=self.year, level=career, descr='All') for career in self.careers]
+            .format(year=self.year, level=career, descr='C') for career in self.careers]
     
     def parse_course_item(self, response):
         url_obj = urlparse(response.url)
@@ -65,6 +65,9 @@ class HandbookSpider(CrawlSpider):
                                 "/div[@class='summary']/p[strong[text()[contains(.,'School')]]]/a/text()"))
         l.add_xpath('campus', ( "//div[@class='column content-col']/div[@class='internalContentWrapper']"
                                 "/div[@class='summary']/p[strong[text()[contains(.,'Campus')]]]/text()"))
+        l.add_xpath('prereqs_str', ( "//div[@class='column content-col']/div[@class='internalContentWrapper']"
+                        "/div[@class='summary']/p[text()[contains(.,'Prerequisite:')]]/text()"), 
+                        re=r'Prerequisite:\s(.+)')
         l.add_xpath('eftsl', ( "//div[@class='column content-col']/div[@class='internalContentWrapper']"
                                 "/div[@class='summary']/p[strong[text()[contains(.,'EFTSL')]]]/text()"))
         l.add_xpath('description_markup', ( "//div[@class='column content-col']/div[@class='internalContentWrapper']"

@@ -34,6 +34,7 @@ This project is under the MIT license.
 - [ ] `ManyToManyFields` for exclusions and prerequisites of courses
     + [ ] Write a CharField for the exlusions and prerequisites and override the `save` method to parse these into `Course`s and save to the respective set
 - [x] Test `Meeting` parsing
+- [ ] Instructor information
 - [ ] Additional information is available in the semester summary. Decide what to do with it, i.e. where to store it
     + [ ] Add `Semester` model  
 - [ ] Filter by course code prefix
@@ -48,3 +49,11 @@ This project is under the MIT license.
 - [ ] Amazon affiliate program
     + [ ] Add `Book` Model
     + [ ] Scrape data    
+- [ ] Webmaster
+- [ ] Analytics
+- [ ] Migrate from sqlite to Postgres and fix field length -related bugs
+- [ ] Hit Count and Popularity view
+- [ ] Capacity progress bar
+- [ ] Punchcard timetable
+- [ ] `TimeField` for start and end times 
+- [ ] Write a better README

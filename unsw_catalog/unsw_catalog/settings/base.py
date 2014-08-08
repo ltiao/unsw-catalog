@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'rest_framework',
     'south',
     'catalog',
@@ -62,7 +63,9 @@ WSGI_APPLICATION = 'unsw_catalog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-DATABASES = dict(default=dj_database_url.config())
+DATABASES = {
+    'default': dj_database_url.config(default='sqlite:///{base}/db.sqlite3'.format(base=BASE_DIR))
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
