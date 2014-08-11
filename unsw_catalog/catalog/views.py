@@ -4,9 +4,11 @@ from rest_framework.viewsets import ModelViewSet
 from catalog.models import Course, Class, Meeting
 from catalog.serializers import CourseSerializer
 
+
+
 class CourseList(ListView):
     model = Course
-    queryset = Course.objects.all()
+    queryset = Course.objects.all()[:25]
     context_object_name = 'course_list'
 
 class CourseViewSet(ModelViewSet):

@@ -56,4 +56,8 @@ This project is under the MIT license.
 - [ ] Capacity progress bar
 - [ ] Punchcard timetable
 - [ ] `TimeField` for start and end times 
+- [ ] I'm Feeling Lucky
+- [ ] Done this course? Rate it
+- [ ] Filter by days, start time, etc.
+- [ ] Campus Map
 - [ ] Write a better README

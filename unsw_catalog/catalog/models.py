@@ -46,6 +46,7 @@ class Course(models.Model):
     
     class Meta:
         unique_together = ('code', 'career', 'year')
+        ordering = ('code', 'career', 'year')
 
     def __unicode__(self):
         return u'{code} - {name}'.format(code=self.code, name=self.name)
