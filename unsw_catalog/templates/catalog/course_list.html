@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-lg-2">
         <div class="list-group">
-          {% regroup course_list by code|truncatechars:7 as courses %}
+          {% regroup course_list by code_prefix as courses %}
           {% for course in courses %}
           <a href="#" class="list-group-item">
             <span class="badge">{{ course.list|length }}</span>
@@ -17,12 +17,13 @@
           {% endfor %}
         </div>
       </div>
-      <div class="col-lg-8">
+      <div class="col-lg-10">
         <div class="list-group">
         {% for course in course_list %}
           <a href="{{ course.src_url }}" class="list-group-item">
-            <span class="badge">{{ course.code }}</span>
-            <h4 class="list-group-item-heading">{{ course.name }} <span class="label label-default">{{ course.code }}</span></h4>
+            <span class="badge">{{ course.uoc }} UOC</span>
+            <h4 class="list-group-item-heading">{{ course.code }}</h4>
+            <h5 class="list-group-item-heading">{{ course.name }}</h5>
             <p class="list-group-item-text">
               {{ course.description_markup | truncatewords_html:60 | safe }}
             </p>

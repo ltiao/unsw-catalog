@@ -1,0 +1,27 @@
+{% extends "catalog/base.html" %}
+
+{% block body %}
+
+<div class='container'>
+	<div class='row'>
+		<div class="btn-group-vertical btn-group-lg">
+		{% regroup year_career_list by year as year_list %}
+
+		{% for year in year_list %}
+			<div class="btn-group">
+				<button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
+					<span class="glyphicon glyphicon-th-list"></span>
+					{{ year.grouper }}
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					{% for item in year.list %}
+					<li><a href="{% url 'course-index' year=item.year career=item.career %}">{{ item.career }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+		{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}

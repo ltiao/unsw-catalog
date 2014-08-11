@@ -10,7 +10,7 @@ class Course(models.Model):
         max_length = 120
     )
     career = models.CharField(
-        verbose_name = 'Study Level/Career', 
+        verbose_name = 'Study Career', 
         max_length = 15, 
         choices = map(lambda x: (x, x), ('Undergraduate', 'Postgraduate', 'Research'))
     )
@@ -44,6 +44,18 @@ class Course(models.Model):
     )
     src_url = models.URLField(verbose_name='Source URL', max_length=80)
     
+    @property 
+    def code_prefix(self):
+        return self.code[:4]
+
+    @property 
+    def code_suffix(self):
+        return self.code[4:]
+
+    @property 
+    def level(self):
+        return self.code_suffix[0]
+
     class Meta:
         unique_together = ('code', 'career', 'year')
         ordering = ('code', 'career', 'year')

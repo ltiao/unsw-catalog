@@ -60,4 +60,7 @@ This project is under the MIT license.
 - [ ] Done this course? Rate it
 - [ ] Filter by days, start time, etc.
 - [ ] Campus Map
+- [ ] Social media sharing
+- [ ] PEP8
+- [ ] [Radial Reingold–Tilford Tree](http://bl.ocks.org/mbostock/4063550) for visualizing dependencies
 - [ ] Write a better README
