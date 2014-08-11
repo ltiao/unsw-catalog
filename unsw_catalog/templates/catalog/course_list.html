@@ -7,7 +7,15 @@
 
     <div class="row">
       <div class="col-lg-2">
-      
+        <div class="list-group">
+          {% regroup course_list by code|truncatechars:7 as courses %}
+          {% for course in courses %}
+          <a href="#" class="list-group-item">
+            <span class="badge">{{ course.list|length }}</span>
+            {{ course.grouper }}
+          </a>
+          {% endfor %}
+        </div>
       </div>
       <div class="col-lg-8">
         <div class="list-group">
