@@ -1,65 +1,78 @@
 {% extends "catalog/base.html" %}
 
 {% block body %}
-
-	<div class="container">
-		<h1>Whats up</h1>
-
-    <div class="row">
-      <div class="col-lg-2">
-        <div class="list-group">
-          {% regroup course_list by code_prefix as courses %}
-          {% for course in courses %}
-          <a href="#" class="list-group-item">
-            <span class="badge">{{ course.list|length }}</span>
+<div class="container">
+  <div class="page-header">
+    <h1>Index</h1>
+  </div>
+  {% if page_obj.has_other_pages %}
+    <ul class="pagination">
+      <li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
+        <a href="?page={{ page_obj.previous_page_number }}">&laquo;</a>
+      </li>
+      {% for p in page_obj.paginator.pages %}
+      <li {% if p == page_obj %}class="active"{% endif %}>
+        <a href="?page={{ p.number }}">{{ p }}</a>
+      </li>
+      {% endfor %}
+      <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
+        <a href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+      </li>
+    </ul>
+  {% endif %}
+  <div class="row">
+    <div class="col-lg-2">
+      <ul class="nav nav-pills nav-stacked" id="prefix-sidebar" data-spy="affix" data-offset-top="100" data-offset-bottom="200">
+        {% regroup course_list by code_prefix as courses %}
+        {% for course in courses %}
+        <li>
+          <a href="#{{ course.grouper }}">
+            <span class="badge pull-right">{{ course.list|length }}</span>
             {{ course.grouper }}
           </a>
-          {% endfor %}
-        </div>
-      </div>
-      <div class="col-lg-10">
-        <div class="list-group">
-        {% for course in course_list %}
-          <a href="{{ course.src_url }}" class="list-group-item">
-            <span class="badge">{{ course.uoc }} UOC</span>
-            <h4 class="list-group-item-heading">{{ course.code }}</h4>
-            <h5 class="list-group-item-heading">{{ course.name }}</h5>
-            <p class="list-group-item-text">
-              {{ course.description_markup | truncatewords_html:60 | safe }}
-            </p>
-          </a>
+        </li>
         {% endfor %}
-        </div>
-        <div class="col-lg-2">
-      
-        </div>
+      </ul>
+    </div>
+    <div class="col-lg-10">
+      <div class="list-group">
+      {% for course in course_list %}
+        <a href="{% url 'course-detail' year=course.year career=course.career code=course.code %}" id="{{ course.code_prefix }}" class="list-group-item">
+          <span class="badge">{{ course.uoc }} UOC</span>
+          <h4 class="list-group-item-heading">{{ course.code }}</h4>
+          <h5 class="list-group-item-heading">{{ course.name }}</h5>
+          <p class="list-group-item-text">
+            <!-- {{ course.description_markup | truncatewords_html:60 | safe }} -->
+          </p>
+        </a>
+      {% endfor %}
+      </div>
+      <div class="col-lg-2">
+    
       </div>
     </div>
-
-
-    <div class="row">
-      <table class="table table-condensed">
-        <thead>
-          <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Level</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for course in course_list %}
-          <tr>
-            <td>{{ course.code }}</td>
-            <td>{{ course.name }}</td>
-            <td>{{ course.career }}</td>
-            <td>{{ course.description_markup | truncatewords_html:10 | safe }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
-
-	</div>
-
+  </div>
+<!--   <div class="row">
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Level</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for course in course_list %}
+        <tr>
+          <td>{{ course.code }}</td>
+          <td>{{ course.name }}</td>
+          <td>{{ course.career }}</td>
+          <td>{{ course.description_markup | truncatewords_html:10 | safe }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div> -->
+</div>
 {% endblock %}

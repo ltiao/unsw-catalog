@@ -1,0 +1,52 @@
+{% extends "catalog/base.html" %}
+
+{% block body %}
+<div class="container">
+	<div class="page-header">
+		<h1>{{ course.code }} <small>{{ course.name }}</small></h1>
+	</div>
+	<div class="row">
+		<div class="col-lg-2">
+		</div>
+		<div class="col-lg-10">
+			<div class="row">
+				<div class="col-lg-3">
+					<div class="panel panel-default">
+					  <!-- Default panel contents -->
+					  <div class="panel-heading">Details</div>
+						<div class="list-group">
+						  <a href="#" class="list-group-item">
+						    <strong class="list-group-item-heading">Career</strong>
+						    <p class="list-group-item-text">{{ course.career }}</p>
+						  </a>
+						  <a href="#" class="list-group-item">
+						    <strong class="list-group-item-heading">Faculty</strong>
+						    <p class="list-group-item-text">{{ course.faculty }}</p>
+						  </a>
+							<a href="{{ course.src_url }}" class="list-group-item">
+						    <strong class="list-group-item-heading">URL</strong>
+						    <p class="list-group-item-text">{{ course.src_url }}</p>
+						  </a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-9">
+					<div class="well">
+						{{ course.description_markup | safe }}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<dl class="dl-horizontal">
+				  <dt>Career</dt>
+				  <dd>{{ course.career }}</dd>
+				  <dt>Faculty</dt>
+				  <dd>{{ course.faculty }}</dd>
+				  <dt>School</dt>
+				  <dd>{{ course.school }}</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
